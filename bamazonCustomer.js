@@ -16,13 +16,37 @@ var connection = mysql.createConnection({
   database: "bamazon_db"
 });
 
+connection.connect(function(err) {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
+  }
+ 
+  console.log('connected as id ' + connection.threadId);
+});
+
 
 // connection.connect(function (err) {
 //     if (err) throw err;
 // });
 
-connection.connect(function(err) {
-    if (err) throw err;
-    console.log("connected as id " + connection.threadId + "\n");
-    // createProduct();
-  });
+
+// connection.query('SELECT 1', function (error, results, fields) {
+//   if (error) throw error;
+//   // connected!
+// });
+
+// connection.connect(function(err) {
+//     if (err) throw err;
+//     console.log("connected as id " + connection.threadId + "\n");
+//     connection.end();
+//     // afterConnection();
+//   });
+
+//   function afterConnection() {
+//   connection.query("SELECT * FROM products", function(err, res) {
+//     if (err) throw err;
+//     console.log(res);
+//     connection.end();
+//   });
+// }
