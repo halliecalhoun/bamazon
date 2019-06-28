@@ -12,4 +12,4 @@ CREATE TABLE products (
 );
 
 
-INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES ("Jenga", "Board Games", 10.50, 55), ("Monopoly", "Board Games", 12.75, 40), ("Echo Dot", "Technology", 49.50, 50), ("Kindle", "Technology", 65, 38), ("Just Dance", "Video Games", 39.99, 62), ("Outriders", "Video Games", 59.99, 28), ("Beoming", "Books", 30.99, 22), ("Elevation", "Books", 15, 18), ("Argan Oil Hair Mask", "Hair Products", 14.99, 70), ("Flat Iron", "Hair Products", 29.99, 35);
+INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES ("Jenga", "Board Games", 10.50, 55), ("Monopoly", "Board Games", 12.75, 40), ("Echo Dot", "Technology", 49.50, 50), ("Kindle", "Technology", 65, 38), ("Just Dance", "Video Games", 39.99, 62), ("Outriders", "Video Games", 59.99, 28), ("Becoming", "Books", 30.99, 22), ("Elevation", "Books", 15, 18), ("Argan Oil Hair Mask", "Hair Products", 14.99, 70), ("Flat Iron", "Hair Products", 29.99, 35);
