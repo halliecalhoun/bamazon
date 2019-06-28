@@ -19,10 +19,12 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId + "\n");
-    console.log("-----------------------------");
-    console.log("Welcome to Bamazon!")
-    console.log("-----------------------------");
+    // console.log("connected as id " + connection.threadId + "\n");
+    
+    console.log("\nPress 'ctrl + C' to exit");
+    console.log("----------------------------------------------------------------------");
+    console.log(chalk.inverse`WELCOME TO BAMAZON`);
+    console.log("----------------------------------------------------------------------");
     // connection.end();
 start();
   });
@@ -38,13 +40,13 @@ start();
     ]).then(function(user) {
       if (user.confirmInventory === true) {
         console.log("----------------------------------------------------------------------");
-        console.log("Great! Please see our inventory below.")
-        console.log("----------------------------------------------------------------------");
+        console.log(chalk.inverse`Great! Please see our inventory below.`)
+        // console.log("----------------------------------------------------------------------");
         productsInventory();
       } else {
         console.log("----------------------------------------------------------------------");
-        console.log("Thank you! If you change your mind, please come again!")
-        console.log("----------------------------------------------------------------------");
+        console.log(chalk.inverse`Thank you! If you change your mind, please come again!`)
+        // console.log("----------------------------------------------------------------------");
       }
     });
   }
@@ -66,9 +68,11 @@ start();
             [res[i].id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity],
         );
     }
-    console.log("----------------------------------------------------------------------");
+    console.log("\n");
+    console.log("-----------------------------INVENTORY--------------------------------");
     console.log(table.toString());
     console.log("----------------------------------------------------------------------");
+    console.log("\n");
     selectProduct();
 });
 }
@@ -78,25 +82,39 @@ function selectProduct() {
   {
     name: "inputId",
     type: "input",
-    message: "Please enter the ID number of the product you would like to purchase followed by the enter button:"
+    message: "Please enter the ID number of the product you would like to purchase followed by the enter button:",
+    validate: function(value) {
+      if (isNaN(value) === false) {
+        return true;
+      }
+      return false;
+    }
   },
   {
     name: "inputQuantity",
     type: "input",
-    message: "How many units of the selected item would you like to purchase?"
+    message: "How many units of the selected item would you like to purchase?",
+    validate: function(value) {
+      if (isNaN(value) === false) {
+        return true;
+      }
+      return false;
+    }
   }
   ]).then(function(answer) {
     connection.query("SELECT * FROM products WHERE id=?", answer.inputId, function(err, res) {
       for (var i = 0; i < res.length; i++) {
+        console.log(res[1]);
         if (answer.inputQuantity > res[i].stock_quantity) {
           console.log("----------------------------------------------------------------------");
-          console.log("Insufficient quantity in stock. Sorry! Please try again later.");
-          console.log("----------------------------------------------------------------------");
+          console.log(chalk.inverse`Insufficient quantity in stock. Sorry! Please try again later.`);
+          // console.log("----------------------------------------------------------------------");
           start();
         } else {
           console.log("----------------------------------------------------------------------");
-          console.log("\nGreat! You have selected to purchase: " + "\nProduct: " + res[i].product_name + "\nQuantity: " + answer.inputQuantity);
-          console.log("----------------------------------------------------------------------");
+          console.log(chalk.inverse`Great! You have selected to purchase:`)
+          console.log("Product: " + res[i].product_name + "\nQuantity: " + answer.inputQuantity);
+          // console.log("----------------------------------------------------------------------");
           var newStockQuantity = (res[i].stock_quantity - answer.inputQuantity);
           var purchaseItemId = (answer.inputId);
           completePurchase(newStockQuantity, purchaseItemId);
@@ -126,17 +144,20 @@ function completePurchase(newStockQuantity, purchaseItemId) {
       }
   ], function(err, res) {});
   console.log("----------------------------------------------------------------------");
-  console.log("Transaction complete. Thank you for your purchase!")
-  console.log("----------------------------------------------------------------------");
+  console.log(chalk.inverse`Transaction complete. Thank you for your purchase!`)
+  // console.log("----------------------------------------------------------------------");
   start();
   } else {
 
     console.log("----------------------------------------------------------------------");
-    console.log("If you change your mind, please come again!")
-    console.log("----------------------------------------------------------------------");
-    start();
+    console.log(chalk.inverse`Thank you, please come again!`)
+    // console.log("----------------------------------------------------------------------");
+    process.exit();
+    
   }
 });
 }
+
+
 
 
